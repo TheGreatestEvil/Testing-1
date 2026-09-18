@@ -1,0 +1,244 @@
+--------------------------------------------------
+-- SPEED
+--------------------------------------------------
+
+local SpeedLabel = Instance.new("TextLabel")
+
+SpeedLabel.Size =
+    UDim2.new(1, -30, 0, 30)
+
+SpeedLabel.Position =
+    UDim2.new(0, 15, 1, -70)
+
+SpeedLabel.BackgroundTransparency = 1
+
+SpeedLabel.Text = "Speed: 16"
+
+SpeedLabel.TextColor3 =
+    Color3.fromRGB(255, 255, 255)
+
+SpeedLabel.TextSize = 16
+SpeedLabel.Font = Enum.Font.GothamBold
+
+SpeedLabel.TextXAlignment =
+    Enum.TextXAlignment.Left
+
+SpeedLabel.Parent = MiscPage
+
+--------------------------------------------------
+-- SPEED SLIDER
+--------------------------------------------------
+
+local SpeedSlider = Instance.new("Frame")
+
+SpeedSlider.Size =
+    UDim2.new(1, -30, 0, 12)
+
+SpeedSlider.Position =
+    UDim2.new(0, 15, 1, -40)
+
+SpeedSlider.BackgroundColor3 =
+    Color3.fromRGB(50, 50, 50)
+
+SpeedSlider.BorderSizePixel = 0
+
+SpeedSlider.Parent = MiscPage
+
+local SpeedSliderCorner = Instance.new("UICorner")
+
+SpeedSliderCorner.CornerRadius =
+    UDim.new(1, 0)
+
+SpeedSliderCorner.Parent = SpeedSlider
+
+--------------------------------------------------
+-- SLIDER FILL
+--------------------------------------------------
+
+local SpeedFill = Instance.new("Frame")
+
+SpeedFill.Size =
+    UDim2.new(0, 0, 1, 0)
+
+SpeedFill.BackgroundColor3 =
+    Color3.fromRGB(100, 100, 100)
+
+SpeedFill.BorderSizePixel = 0
+
+SpeedFill.Parent = SpeedSlider
+
+local FillCorner = Instance.new("UICorner")
+
+FillCorner.CornerRadius =
+    UDim.new(1, 0)
+
+FillCorner.Parent = SpeedFill
+
+--------------------------------------------------
+-- SLIDER BUTTON
+--------------------------------------------------
+
+local SpeedKnob = Instance.new("TextButton")
+
+SpeedKnob.Size =
+    UDim2.new(0, 20, 0, 20)
+
+SpeedKnob.AnchorPoint =
+    Vector2.new(0.5, 0.5)
+
+SpeedKnob.Position =
+    UDim2.new(0, 0, 0.5, 0)
+
+SpeedKnob.BackgroundColor3 =
+    Color3.fromRGB(255, 255, 255)
+
+SpeedKnob.Text = ""
+
+SpeedKnob.BorderSizePixel = 0
+
+SpeedKnob.Parent = SpeedSlider
+
+local KnobCorner = Instance.new("UICorner")
+
+KnobCorner.CornerRadius =
+    UDim.new(1, 0)
+
+KnobCorner.Parent = SpeedKnob
+
+--------------------------------------------------
+-- SPEED SETTINGS
+--------------------------------------------------
+
+local MinSpeed = 1
+local MaxSpeed = 1000
+local CurrentSpeed = 16
+
+local draggingSpeed = false
+
+local function setSpeedFromPosition(x)
+
+    local sliderStart =
+        SpeedSlider.AbsolutePosition.X
+
+    local sliderWidth =
+        SpeedSlider.AbsoluteSize.X
+
+    local percent =
+        math.clamp(
+            (x - sliderStart) / sliderWidth,
+            0,
+            1
+        )
+
+    CurrentSpeed =
+        math.floor(
+            MinSpeed +
+            (MaxSpeed - MinSpeed) * percent
+        )
+
+    SpeedLabel.Text =
+        "Speed: " .. CurrentSpeed
+
+    SpeedFill.Size =
+        UDim2.new(percent, 0, 1, 0)
+
+    SpeedKnob.Position =
+        UDim2.new(percent, 0, 0.5, 0)
+
+    local character =
+        LocalPlayer.Character
+
+    local humanoid =
+        character
+        and character:FindFirstChildOfClass(
+            "Humanoid"
+        )
+
+    if humanoid then
+        humanoid.WalkSpeed = CurrentSpeed
+    end
+end
+
+--------------------------------------------------
+-- MOUSE + TOUCH
+--------------------------------------------------
+
+SpeedKnob.InputBegan:Connect(function(input)
+
+    if input.UserInputType ==
+        Enum.UserInputType.MouseButton1
+        or input.UserInputType ==
+        Enum.UserInputType.Touch then
+
+        draggingSpeed = true
+
+    end
+end)
+
+SpeedSlider.InputBegan:Connect(function(input)
+
+    if input.UserInputType ==
+        Enum.UserInputType.MouseButton1
+        or input.UserInputType ==
+        Enum.UserInputType.Touch then
+
+        draggingSpeed = true
+
+        setSpeedFromPosition(input.Position.X)
+
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+
+    if not draggingSpeed then
+        return
+    end
+
+    if input.UserInputType ==
+        Enum.UserInputType.MouseMovement
+        or input.UserInputType ==
+        Enum.UserInputType.Touch then
+
+        setSpeedFromPosition(
+            input.Position.X
+        )
+
+    end
+end)
+
+UserInputService.InputEnded:Connect(function(input)
+
+    if input.UserInputType ==
+        Enum.UserInputType.MouseButton1
+        or input.UserInputType ==
+        Enum.UserInputType.Touch then
+
+        draggingSpeed = false
+
+    end
+end)
+
+--------------------------------------------------
+-- APPLY SPEED AFTER RESPAWN
+--------------------------------------------------
+
+LocalPlayer.CharacterAdded:Connect(function(character)
+
+    local humanoid =
+        character:WaitForChild("Humanoid")
+
+    humanoid.WalkSpeed = CurrentSpeed
+
+end)
+
+--------------------------------------------------
+-- START AT 16 SPEED
+--------------------------------------------------
+
+setSpeedFromPosition(
+    SpeedSlider.AbsolutePosition.X +
+    SpeedSlider.AbsoluteSize.X *
+    ((CurrentSpeed - MinSpeed) /
+    (MaxSpeed - MinSpeed))
+)
