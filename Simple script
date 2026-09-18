@@ -1,244 +1,688 @@
 --------------------------------------------------
--- SPEED
+-- CUSTOM ROBLOX GUI
+-- ONLY ONE TAB: MISC
 --------------------------------------------------
 
-local SpeedLabel = Instance.new("TextLabel")
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
 
-SpeedLabel.Size =
-    UDim2.new(1, -30, 0, 30)
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 
-SpeedLabel.Position =
-    UDim2.new(0, 15, 1, -70)
+--------------------------------------------------
+-- REMOVE OLD GUI
+--------------------------------------------------
 
-SpeedLabel.BackgroundTransparency = 1
+local OldGui = PlayerGui:FindFirstChild("CustomPlayerGUI")
 
-SpeedLabel.Text = "Speed: 16"
+if OldGui then
+    OldGui:Destroy()
+end
 
-SpeedLabel.TextColor3 =
+local OldToggle = PlayerGui:FindFirstChild("SeparateToggleGUI")
+
+if OldToggle then
+    OldToggle:Destroy()
+end
+
+--------------------------------------------------
+-- MAIN SCREEN GUI
+--------------------------------------------------
+
+local ScreenGui = Instance.new("ScreenGui")
+
+ScreenGui.Name = "CustomPlayerGUI"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.IgnoreGuiInset = true
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+ScreenGui.Parent = PlayerGui
+
+--------------------------------------------------
+-- MAIN WINDOW
+--------------------------------------------------
+
+local MainFrame = Instance.new("Frame")
+
+MainFrame.Name = "MainFrame"
+MainFrame.Size = UDim2.new(0, 430, 0, 330)
+MainFrame.Position = UDim2.new(0.5, -215, 0.5, -165)
+
+MainFrame.BackgroundColor3 =
+    Color3.fromRGB(25, 25, 25)
+
+MainFrame.BorderSizePixel = 0
+MainFrame.Active = true
+
+MainFrame.Parent = ScreenGui
+
+local MainCorner = Instance.new("UICorner")
+
+MainCorner.CornerRadius = UDim.new(0, 10)
+MainCorner.Parent = MainFrame
+
+--------------------------------------------------
+-- TITLE BAR
+--------------------------------------------------
+
+local TitleBar = Instance.new("Frame")
+
+TitleBar.Size = UDim2.new(1, 0, 0, 45)
+
+TitleBar.BackgroundColor3 =
+    Color3.fromRGB(35, 35, 35)
+
+TitleBar.BorderSizePixel = 0
+TitleBar.Active = true
+
+TitleBar.Parent = MainFrame
+
+local Title = Instance.new("TextLabel")
+
+Title.Size = UDim2.new(1, -20, 1, 0)
+Title.Position = UDim2.new(0, 15, 0, 0)
+
+Title.BackgroundTransparency = 1
+
+Title.Text = "Player Utility"
+Title.TextColor3 =
     Color3.fromRGB(255, 255, 255)
 
-SpeedLabel.TextSize = 16
-SpeedLabel.Font = Enum.Font.GothamBold
+Title.TextSize = 20
+Title.Font = Enum.Font.GothamBold
 
-SpeedLabel.TextXAlignment =
+Title.TextXAlignment =
     Enum.TextXAlignment.Left
 
-SpeedLabel.Parent = MiscPage
+Title.Parent = TitleBar
 
 --------------------------------------------------
--- SPEED SLIDER
+-- MISC TAB
 --------------------------------------------------
 
-local SpeedSlider = Instance.new("Frame")
+local TabBar = Instance.new("Frame")
 
-SpeedSlider.Size =
-    UDim2.new(1, -30, 0, 12)
+TabBar.Size =
+    UDim2.new(0, 100, 1, -45)
 
-SpeedSlider.Position =
-    UDim2.new(0, 15, 1, -40)
+TabBar.Position =
+    UDim2.new(0, 0, 0, 45)
 
-SpeedSlider.BackgroundColor3 =
-    Color3.fromRGB(50, 50, 50)
+TabBar.BackgroundColor3 =
+    Color3.fromRGB(30, 30, 30)
 
-SpeedSlider.BorderSizePixel = 0
+TabBar.BorderSizePixel = 0
 
-SpeedSlider.Parent = MiscPage
+TabBar.Parent = MainFrame
 
-local SpeedSliderCorner = Instance.new("UICorner")
+local MiscTab = Instance.new("TextButton")
 
-SpeedSliderCorner.CornerRadius =
-    UDim.new(1, 0)
+MiscTab.Size =
+    UDim2.new(1, -10, 0, 45)
 
-SpeedSliderCorner.Parent = SpeedSlider
+MiscTab.Position =
+    UDim2.new(0, 5, 0, 10)
 
---------------------------------------------------
--- SLIDER FILL
---------------------------------------------------
+MiscTab.BackgroundColor3 =
+    Color3.fromRGB(55, 55, 55)
 
-local SpeedFill = Instance.new("Frame")
-
-SpeedFill.Size =
-    UDim2.new(0, 0, 1, 0)
-
-SpeedFill.BackgroundColor3 =
-    Color3.fromRGB(100, 100, 100)
-
-SpeedFill.BorderSizePixel = 0
-
-SpeedFill.Parent = SpeedSlider
-
-local FillCorner = Instance.new("UICorner")
-
-FillCorner.CornerRadius =
-    UDim.new(1, 0)
-
-FillCorner.Parent = SpeedFill
-
---------------------------------------------------
--- SLIDER BUTTON
---------------------------------------------------
-
-local SpeedKnob = Instance.new("TextButton")
-
-SpeedKnob.Size =
-    UDim2.new(0, 20, 0, 20)
-
-SpeedKnob.AnchorPoint =
-    Vector2.new(0.5, 0.5)
-
-SpeedKnob.Position =
-    UDim2.new(0, 0, 0.5, 0)
-
-SpeedKnob.BackgroundColor3 =
+MiscTab.TextColor3 =
     Color3.fromRGB(255, 255, 255)
 
-SpeedKnob.Text = ""
+MiscTab.Text = "Misc"
 
-SpeedKnob.BorderSizePixel = 0
+MiscTab.TextSize = 15
+MiscTab.Font = Enum.Font.GothamBold
 
-SpeedKnob.Parent = SpeedSlider
+MiscTab.BorderSizePixel = 0
 
-local KnobCorner = Instance.new("UICorner")
+MiscTab.Parent = TabBar
 
-KnobCorner.CornerRadius =
-    UDim.new(1, 0)
+local MiscCorner = Instance.new("UICorner")
 
-KnobCorner.Parent = SpeedKnob
+MiscCorner.CornerRadius =
+    UDim.new(0, 6)
+
+MiscCorner.Parent = MiscTab
 
 --------------------------------------------------
--- SPEED SETTINGS
+-- CONTENT
 --------------------------------------------------
 
-local MinSpeed = 1
-local MaxSpeed = 1000
-local CurrentSpeed = 16
+local Content = Instance.new("Frame")
 
-local draggingSpeed = false
+Content.Size =
+    UDim2.new(1, -100, 1, -45)
 
-local function setSpeedFromPosition(x)
+Content.Position =
+    UDim2.new(0, 100, 0, 45)
 
-    local sliderStart =
-        SpeedSlider.AbsolutePosition.X
+Content.BackgroundTransparency = 1
 
-    local sliderWidth =
-        SpeedSlider.AbsoluteSize.X
+Content.Parent = MainFrame
 
-    local percent =
-        math.clamp(
-            (x - sliderStart) / sliderWidth,
-            0,
-            1
+--------------------------------------------------
+-- MISC PAGE
+--------------------------------------------------
+
+local MiscPage = Instance.new("Frame")
+
+MiscPage.Size =
+    UDim2.new(1, 0, 1, 0)
+
+MiscPage.BackgroundTransparency = 1
+
+MiscPage.Parent = Content
+
+--------------------------------------------------
+-- ESP BUTTON
+--------------------------------------------------
+
+local ESPButton = Instance.new("TextButton")
+
+ESPButton.Size =
+    UDim2.new(1, -30, 0, 45)
+
+ESPButton.Position =
+    UDim2.new(0, 15, 0, 15)
+
+ESPButton.BackgroundColor3 =
+    Color3.fromRGB(45, 45, 45)
+
+ESPButton.TextColor3 =
+    Color3.fromRGB(255, 255, 255)
+
+ESPButton.Text = "ESP: OFF"
+
+ESPButton.TextSize = 16
+ESPButton.Font = Enum.Font.GothamBold
+
+ESPButton.BorderSizePixel = 0
+
+ESPButton.Parent = MiscPage
+
+local ESPCorner = Instance.new("UICorner")
+
+ESPCorner.CornerRadius =
+    UDim.new(0, 7)
+
+ESPCorner.Parent = ESPButton
+
+--------------------------------------------------
+-- PLAYER LIST TITLE
+--------------------------------------------------
+
+local PlayerTitle = Instance.new("TextLabel")
+
+PlayerTitle.Size =
+    UDim2.new(1, -30, 0, 30)
+
+PlayerTitle.Position =
+    UDim2.new(0, 15, 0, 70)
+
+PlayerTitle.BackgroundTransparency = 1
+
+PlayerTitle.Text = "Player List"
+PlayerTitle.TextColor3 =
+    Color3.fromRGB(255, 255, 255)
+
+PlayerTitle.TextSize = 16
+PlayerTitle.Font = Enum.Font.GothamBold
+
+PlayerTitle.TextXAlignment =
+    Enum.TextXAlignment.Left
+
+PlayerTitle.Parent = MiscPage
+
+--------------------------------------------------
+-- REFRESH BUTTON
+--------------------------------------------------
+
+local RefreshButton = Instance.new("TextButton")
+
+RefreshButton.Size =
+    UDim2.new(0, 100, 0, 30)
+
+RefreshButton.Position =
+    UDim2.new(1, -115, 0, 70)
+
+RefreshButton.BackgroundColor3 =
+    Color3.fromRGB(45, 45, 45)
+
+RefreshButton.TextColor3 =
+    Color3.fromRGB(255, 255, 255)
+
+RefreshButton.Text = "Refresh"
+
+RefreshButton.TextSize = 13
+RefreshButton.Font = Enum.Font.GothamBold
+
+RefreshButton.BorderSizePixel = 0
+
+RefreshButton.Parent = MiscPage
+
+local RefreshCorner = Instance.new("UICorner")
+
+RefreshCorner.CornerRadius =
+    UDim.new(0, 6)
+
+RefreshCorner.Parent = RefreshButton
+
+--------------------------------------------------
+-- PLAYER SCROLLING LIST
+--------------------------------------------------
+
+local PlayerList = Instance.new("ScrollingFrame")
+
+PlayerList.Size =
+    UDim2.new(1, -30, 1, -110)
+
+PlayerList.Position =
+    UDim2.new(0, 15, 0, 105)
+
+PlayerList.BackgroundColor3 =
+    Color3.fromRGB(20, 20, 20)
+
+PlayerList.BorderSizePixel = 0
+
+PlayerList.ScrollBarThickness = 5
+
+PlayerList.AutomaticCanvasSize =
+    Enum.AutomaticSize.Y
+
+PlayerList.CanvasSize =
+    UDim2.new(0, 0, 0, 0)
+
+PlayerList.Parent = MiscPage
+
+local PlayerListCorner = Instance.new("UICorner")
+
+PlayerListCorner.CornerRadius =
+    UDim.new(0, 7)
+
+PlayerListCorner.Parent = PlayerList
+
+local ListLayout = Instance.new("UIListLayout")
+
+ListLayout.Padding =
+    UDim.new(0, 5)
+
+ListLayout.SortOrder =
+    Enum.SortOrder.Name
+
+ListLayout.Parent = PlayerList
+
+local ListPadding = Instance.new("UIPadding")
+
+ListPadding.PaddingTop = UDim.new(0, 5)
+ListPadding.PaddingBottom = UDim.new(0, 5)
+ListPadding.PaddingLeft = UDim.new(0, 5)
+ListPadding.PaddingRight = UDim.new(0, 5)
+
+ListPadding.Parent = PlayerList
+
+--------------------------------------------------
+-- TELEPORT
+--------------------------------------------------
+
+local function teleportToPlayer(player)
+
+    if player == LocalPlayer then
+        return
+    end
+
+    local targetCharacter = player.Character
+
+    local targetRoot =
+        targetCharacter
+        and targetCharacter:FindFirstChild(
+            "HumanoidRootPart"
         )
 
-    CurrentSpeed =
-        math.floor(
-            MinSpeed +
-            (MaxSpeed - MinSpeed) * percent
+    local myCharacter = LocalPlayer.Character
+
+    local myRoot =
+        myCharacter
+        and myCharacter:FindFirstChild(
+            "HumanoidRootPart"
         )
 
-    SpeedLabel.Text =
-        "Speed: " .. CurrentSpeed
+    if targetRoot and myRoot then
 
-    SpeedFill.Size =
-        UDim2.new(percent, 0, 1, 0)
+        myRoot.CFrame =
+            targetRoot.CFrame
+            + Vector3.new(0, 3, 0)
 
-    SpeedKnob.Position =
-        UDim2.new(percent, 0, 0.5, 0)
-
-    local character =
-        LocalPlayer.Character
-
-    local humanoid =
-        character
-        and character:FindFirstChildOfClass(
-            "Humanoid"
-        )
-
-    if humanoid then
-        humanoid.WalkSpeed = CurrentSpeed
     end
 end
 
 --------------------------------------------------
--- MOUSE + TOUCH
+-- PLAYER BUTTON
 --------------------------------------------------
 
-SpeedKnob.InputBegan:Connect(function(input)
+local function createPlayerButton(player)
 
-    if input.UserInputType ==
-        Enum.UserInputType.MouseButton1
-        or input.UserInputType ==
-        Enum.UserInputType.Touch then
-
-        draggingSpeed = true
-
-    end
-end)
-
-SpeedSlider.InputBegan:Connect(function(input)
-
-    if input.UserInputType ==
-        Enum.UserInputType.MouseButton1
-        or input.UserInputType ==
-        Enum.UserInputType.Touch then
-
-        draggingSpeed = true
-
-        setSpeedFromPosition(input.Position.X)
-
-    end
-end)
-
-UserInputService.InputChanged:Connect(function(input)
-
-    if not draggingSpeed then
+    if player == LocalPlayer then
         return
     end
 
-    if input.UserInputType ==
-        Enum.UserInputType.MouseMovement
-        or input.UserInputType ==
-        Enum.UserInputType.Touch then
+    local Button = Instance.new("TextButton")
 
-        setSpeedFromPosition(
-            input.Position.X
-        )
+    Button.Size =
+        UDim2.new(1, -10, 0, 38)
+
+    Button.BackgroundColor3 =
+        Color3.fromRGB(40, 40, 40)
+
+    Button.TextColor3 =
+        Color3.fromRGB(255, 255, 255)
+
+    Button.Text =
+        player.DisplayName
+        .. "  (@" .. player.Name .. ")"
+
+    Button.TextSize = 14
+    Button.Font = Enum.Font.Gotham
+
+    Button.BorderSizePixel = 0
+
+    Button.Parent = PlayerList
+
+    local Corner = Instance.new("UICorner")
+
+    Corner.CornerRadius =
+        UDim.new(0, 6)
+
+    Corner.Parent = Button
+
+    Button.Activated:Connect(function()
+
+        teleportToPlayer(player)
+
+    end)
+end
+
+--------------------------------------------------
+-- REFRESH PLAYERS
+--------------------------------------------------
+
+local function refreshPlayers()
+
+    for _, object in ipairs(PlayerList:GetChildren()) do
+
+        if object:IsA("TextButton") then
+            object:Destroy()
+        end
 
     end
-end)
 
-UserInputService.InputEnded:Connect(function(input)
+    for _, player in ipairs(Players:GetPlayers()) do
 
-    if input.UserInputType ==
-        Enum.UserInputType.MouseButton1
-        or input.UserInputType ==
-        Enum.UserInputType.Touch then
-
-        draggingSpeed = false
+        createPlayerButton(player)
 
     end
+end
+
+RefreshButton.Activated:Connect(refreshPlayers)
+
+refreshPlayers()
+
+Players.PlayerAdded:Connect(function(player)
+
+    task.wait(0.2)
+
+    refreshPlayers()
+
+end)
+
+Players.PlayerRemoving:Connect(function()
+
+    refreshPlayers()
+
 end)
 
 --------------------------------------------------
--- APPLY SPEED AFTER RESPAWN
+-- ESP
 --------------------------------------------------
 
-LocalPlayer.CharacterAdded:Connect(function(character)
+local ESPEnabled = false
+local ESPConnections = {}
 
-    local humanoid =
-        character:WaitForChild("Humanoid")
+local function addESP(player)
 
-    humanoid.WalkSpeed = CurrentSpeed
+    if player == LocalPlayer then
+        return
+    end
+
+    local function setup(character)
+
+        if not ESPEnabled then
+            return
+        end
+
+        local old =
+            character:FindFirstChild("CustomESP")
+
+        if old then
+            old:Destroy()
+        end
+
+        local Highlight =
+            Instance.new("Highlight")
+
+        Highlight.Name = "CustomESP"
+        Highlight.Adornee = character
+
+        Highlight.FillColor =
+            Color3.fromRGB(255, 0, 0)
+
+        Highlight.OutlineColor =
+            Color3.fromRGB(255, 255, 255)
+
+        Highlight.FillTransparency = 0.5
+        Highlight.OutlineTransparency = 0
+
+        Highlight.DepthMode =
+            Enum.HighlightDepthMode.AlwaysOnTop
+
+        Highlight.Parent = character
+    end
+
+    if player.Character then
+        setup(player.Character)
+    end
+
+    ESPConnections[player] =
+        player.CharacterAdded:Connect(setup)
+end
+
+local function removeESP()
+
+    for _, player in ipairs(Players:GetPlayers()) do
+
+        if player.Character then
+
+            local highlight =
+                player.Character:FindFirstChild(
+                    "CustomESP"
+                )
+
+            if highlight then
+                highlight:Destroy()
+            end
+        end
+    end
+
+    for player, connection in pairs(ESPConnections) do
+
+        connection:Disconnect()
+
+        ESPConnections[player] = nil
+    end
+end
+
+ESPButton.Activated:Connect(function()
+
+    ESPEnabled = not ESPEnabled
+
+    if ESPEnabled then
+
+        ESPButton.Text = "ESP: ON"
+
+        for _, player in ipairs(Players:GetPlayers()) do
+            addESP(player)
+        end
+
+    else
+
+        ESPButton.Text = "ESP: OFF"
+
+        removeESP()
+
+    end
+
+end)
+
+Players.PlayerAdded:Connect(function(player)
+
+    if ESPEnabled then
+        addESP(player)
+    end
 
 end)
 
 --------------------------------------------------
--- START AT 16 SPEED
+-- DRAG FUNCTION
 --------------------------------------------------
 
-setSpeedFromPosition(
-    SpeedSlider.AbsolutePosition.X +
-    SpeedSlider.AbsoluteSize.X *
-    ((CurrentSpeed - MinSpeed) /
-    (MaxSpeed - MinSpeed))
+local function makeDraggable(object, handle)
+
+    local dragging = false
+    local dragStart
+    local startPosition
+
+    handle.InputBegan:Connect(function(input)
+
+        if input.UserInputType ==
+            Enum.UserInputType.MouseButton1
+            or input.UserInputType ==
+            Enum.UserInputType.Touch then
+
+            dragging = true
+
+            dragStart = input.Position
+            startPosition = object.Position
+
+            input.Changed:Connect(function()
+
+                if input.UserInputState ==
+                    Enum.UserInputState.End then
+
+                    dragging = false
+
+                end
+            end)
+        end
+    end)
+
+    UserInputService.InputChanged:Connect(function(input)
+
+        if not dragging then
+            return
+        end
+
+        if input.UserInputType ==
+            Enum.UserInputType.MouseMovement
+            or input.UserInputType ==
+            Enum.UserInputType.Touch then
+
+            local delta =
+                input.Position - dragStart
+
+            object.Position = UDim2.new(
+                startPosition.X.Scale,
+                startPosition.X.Offset + delta.X,
+
+                startPosition.Y.Scale,
+                startPosition.Y.Offset + delta.Y
+            )
+        end
+    end)
+end
+
+--------------------------------------------------
+-- DRAG MAIN WINDOW
+--------------------------------------------------
+
+makeDraggable(
+    MainFrame,
+    TitleBar
 )
+
+--------------------------------------------------
+-- SEPARATE TOGGLE GUI
+--------------------------------------------------
+
+local ToggleGui = Instance.new("ScreenGui")
+
+ToggleGui.Name = "SeparateToggleGUI"
+ToggleGui.ResetOnSpawn = false
+ToggleGui.IgnoreGuiInset = true
+ToggleGui.ZIndexBehavior =
+    Enum.ZIndexBehavior.Global
+
+ToggleGui.Parent = PlayerGui
+
+local ToggleButton = Instance.new("TextButton")
+
+ToggleButton.Size =
+    UDim2.new(0, 50, 0, 50)
+
+ToggleButton.Position =
+    UDim2.new(0, 15, 0.5, -25)
+
+ToggleButton.BackgroundColor3 =
+    Color3.fromRGB(35, 35, 35)
+
+ToggleButton.TextColor3 =
+    Color3.fromRGB(255, 255, 255)
+
+ToggleButton.Text = "☰"
+
+ToggleButton.TextSize = 24
+ToggleButton.Font =
+    Enum.Font.GothamBold
+
+ToggleButton.BorderSizePixel = 0
+ToggleButton.Active = true
+
+ToggleButton.Parent = ToggleGui
+
+local ToggleCorner = Instance.new("UICorner")
+
+ToggleCorner.CornerRadius =
+    UDim.new(1, 0)
+
+ToggleCorner.Parent = ToggleButton
+
+--------------------------------------------------
+-- DRAG FLOATING BUTTON
+--------------------------------------------------
+
+makeDraggable(
+    ToggleButton,
+    ToggleButton
+)
+
+--------------------------------------------------
+-- HIDE / SHOW
+--------------------------------------------------
+
+ToggleButton.Activated:Connect(function()
+
+    MainFrame.Visible =
+        not MainFrame.Visible
+
+end)
+
+print("Custom Misc GUI loaded.")
